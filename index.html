@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1020" />
+    <meta
+      name="description"
+      content="ビンゴで呼ばれた番号を、3列の見やすいボードで記録・確認できるシンプルなアプリです。"
+    />
+    <meta property="og:title" content="BINGO BOARD" />
+    <meta
+      property="og:description"
+      content="呼ばれた番号をすばやく記録。間違えた番号はその場で削除できます。"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://2jhb79jjlukz5nzb.github.io/BingoApp/og.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BINGO BOARD" />
+    <meta
+      name="twitter:description"
+      content="呼ばれた番号をすばやく記録。間違えた番号はその場で削除できます。"
+    />
+    <meta
+      name="twitter:image"
+      content="https://2jhb79jjlukz5nzb.github.io/BingoApp/og.png"
+    />
+    <title>BINGO BOARD</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient ambient--one" aria-hidden="true"></div>
+    <div class="ambient ambient--two" aria-hidden="true"></div>
+
+    <main class="home">
+      <p class="eyebrow">NUMBER TRACKER</p>
+      <button class="launch-card" id="openApp" type="button" aria-haspopup="dialog">
+        <span class="launch-card__icon" aria-hidden="true">75</span>
+        <span class="launch-card__copy">
+          <strong>BINGO BOARD</strong>
+          <small>タップして番号を記録</small>
+        </span>
+        <span class="launch-card__arrow" aria-hidden="true">↗</span>
+      </button>
+      <p class="home__hint">
+        記録した番号はこの端末に保存されます
+        <span aria-hidden="true">•</span>
+        <span id="homeCount">0個</span>
+      </p>
+    </main>
+
+    <dialog class="bingo-dialog" id="bingoDialog" aria-labelledby="dialogTitle">
+      <section class="bingo-panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">CALLED NUMBERS</p>
+            <h1 id="dialogTitle">出た番号</h1>
+          </div>
+          <div class="panel-header__actions">
+            <p class="number-count" aria-live="polite"><strong id="numberCount">0</strong> / 75</p>
+            <button class="close-button" id="closeApp" type="button" aria-label="画面を閉じる">×</button>
+          </div>
+        </header>
+
+        <div class="number-area" id="numberArea">
+          <div class="number-grid" id="numberGrid" aria-live="polite"></div>
+          <div class="empty-state" id="emptyState">
+            <span aria-hidden="true">＋</span>
+            <p>最初の番号を追加しましょう</p>
+          </div>
+        </div>
+
+        <footer class="entry-area">
+          <form class="number-form" id="numberForm" novalidate>
+            <div class="input-wrap">
+              <label for="numberInput">番号を入力</label>
+              <input
+                id="numberInput"
+                name="number"
+                type="number"
+                min="1"
+                max="75"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="1〜75"
+                required
+              />
+            </div>
+            <button class="add-button" type="submit">
+              <span>追加する</span>
+              <span aria-hidden="true">＋</span>
+            </button>
+          </form>
+          <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
+          <p class="entry-area__hint">Enterキーでも追加できます</p>
+        </footer>
+      </section>
+    </dialog>
+  </body>
+</html>
