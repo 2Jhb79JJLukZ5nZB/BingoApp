@@ -1,0 +1,289 @@
+:root {
+  font-family: "Noto Sans JP", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+  color: #17191c;
+  background: #ffffff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-width: 300px;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.popup-shell {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid #e7eaed;
+}
+
+.popup-label {
+  margin: 0 0 4px;
+  color: #ff8700;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.popup-header h1 {
+  margin: 0;
+  font-size: 1.65rem;
+  letter-spacing: -0.04em;
+}
+
+.popup-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.number-count {
+  margin: 0;
+  color: #7d858d;
+  font-size: 0.78rem;
+}
+
+.number-count strong {
+  color: #17191c;
+  font-size: 1.1rem;
+}
+
+.close-button,
+.remove-button {
+  display: grid;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.close-button {
+  width: 38px;
+  height: 38px;
+  background: #eef0f2;
+  color: #66707a;
+  font-size: 1.3rem;
+}
+
+.close-button:hover {
+  background: #e1e5e8;
+}
+
+.number-area {
+  position: relative;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: #c7ccd1 transparent;
+}
+
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 20px 24px;
+}
+
+.number-card {
+  position: relative;
+  display: flex;
+  min-height: 84px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e6e9;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.number-card__letter {
+  position: absolute;
+  top: 9px;
+  left: 11px;
+  color: #ff8700;
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.number-card__value {
+  font-size: clamp(1.65rem, 7vw, 2.2rem);
+  font-weight: 750;
+  line-height: 1;
+}
+
+.remove-button {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 25px;
+  height: 25px;
+  background: #f0f2f3;
+  color: #808890;
+  font-size: 0.95rem;
+}
+
+.remove-button:hover {
+  background: #e04d44;
+  color: #ffffff;
+}
+
+.empty-state {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  color: #8a9299;
+}
+
+.empty-state[hidden] {
+  display: none;
+}
+
+.empty-state span {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border: 1px solid #dfe3e6;
+  border-radius: 50%;
+  color: #ff8700;
+  font-size: 1.5rem;
+}
+
+.empty-state p {
+  margin: 12px 0 0;
+  font-size: 0.82rem;
+}
+
+.entry-area {
+  padding: 18px 24px 20px;
+  border-top: 1px solid #e7eaed;
+  background: #f7f8f8;
+}
+
+.number-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 108px;
+  gap: 10px;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.input-wrap label {
+  position: absolute;
+  top: 7px;
+  left: 14px;
+  color: #777f87;
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.input-wrap input {
+  width: 100%;
+  height: 58px;
+  padding: 22px 14px 6px;
+  border: 1px solid #ccd2d7;
+  border-radius: 8px;
+  outline: none;
+  background: #ffffff;
+  color: #17191c;
+  font-size: 1.05rem;
+  font-weight: 700;
+  appearance: textfield;
+}
+
+.input-wrap input::-webkit-inner-spin-button,
+.input-wrap input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.input-wrap input:focus {
+  border-color: #087ff5;
+}
+
+.add-button {
+  border: 0;
+  border-radius: 8px;
+  background: #087ff5;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background: #006ed9;
+}
+
+.close-button:focus-visible,
+.remove-button:focus-visible,
+.add-button:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(8, 127, 245, 0.24);
+  outline-offset: 2px;
+}
+
+.form-message {
+  min-height: 1.2em;
+  margin: 7px 2px 0;
+  color: #d83b32;
+  font-size: 0.7rem;
+}
+
+.form-message.is-success {
+  color: #14834d;
+}
+
+.entry-hint {
+  margin: 1px 2px 0;
+  color: #8a9299;
+  font-size: 0.66rem;
+}
+
+@media (max-width: 420px) {
+  .popup-header,
+  .entry-area {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .number-grid {
+    gap: 7px;
+    padding: 14px 10px;
+  }
+
+  .number-card {
+    min-height: 76px;
+  }
+
+  .number-form {
+    grid-template-columns: minmax(0, 1fr) 78px;
+  }
+}

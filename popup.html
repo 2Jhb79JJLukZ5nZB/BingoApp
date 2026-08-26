@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>ビンゴ番号ボード</title>
+    <link rel="stylesheet" href="popup.css" />
+    <script src="bingo.js" defer></script>
+    <script src="popup.js" defer></script>
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="popup-header">
+        <div>
+          <p class="popup-label">BINGO</p>
+          <h1>出た番号</h1>
+        </div>
+        <div class="popup-header__actions">
+          <p class="number-count" aria-live="polite">
+            <strong id="numberCount">0</strong><span> / 75</span>
+          </p>
+          <button class="close-button" id="closeApp" type="button" aria-label="閉じる">×</button>
+        </div>
+      </header>
+
+      <section class="number-area" id="numberArea" aria-label="呼ばれた番号の一覧">
+        <div class="number-grid" id="numberGrid" aria-live="polite"></div>
+        <div class="empty-state" id="emptyState">
+          <span aria-hidden="true">＋</span>
+          <p>番号を追加してください</p>
+        </div>
+      </section>
+
+      <footer class="entry-area">
+        <form class="number-form" id="numberForm" novalidate>
+          <div class="input-wrap">
+            <label for="numberInput">番号</label>
+            <input
+              id="numberInput"
+              name="number"
+              type="number"
+              min="1"
+              max="75"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="1〜75"
+              required
+            />
+          </div>
+          <button class="add-button" type="submit">追加</button>
+        </form>
+        <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
+        <p class="entry-hint">Enterキーでも追加できます</p>
+      </footer>
+    </main>
+  </body>
+</html>
