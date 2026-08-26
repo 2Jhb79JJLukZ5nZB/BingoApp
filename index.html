@@ -43,23 +43,9 @@
 
     <template id="popupTemplate">
       <main class="popup-shell">
-        <header class="popup-header">
-          <div>
-            <p class="popup-label">BINGO</p>
-            <h1>出た番号</h1>
-          </div>
-          <div class="popup-header__actions">
-            <p class="number-count" aria-live="polite">
-              <strong id="numberCount">0</strong><span> / 75</span>
-            </p>
-            <button class="close-button" id="closeApp" type="button" aria-label="閉じる">×</button>
-          </div>
-        </header>
-
         <section class="number-area" id="numberArea" aria-label="呼ばれた番号の一覧">
           <div class="number-grid" id="numberGrid" aria-live="polite"></div>
           <div class="empty-state" id="emptyState">
-            <span aria-hidden="true">＋</span>
             <p>番号を追加してください</p>
           </div>
         </section>
@@ -73,17 +59,17 @@
                 name="number"
                 type="number"
                 min="1"
-                max="75"
+                max="100"
                 inputmode="numeric"
                 autocomplete="off"
-                placeholder="1〜75"
+                placeholder="1〜100"
                 required
               />
             </div>
             <button class="add-button" type="submit">追加</button>
           </form>
           <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
-          <p class="entry-hint">Enterキーでも追加できます</p>
+          <p class="entry-hint">追加ボタンまたはEnterキーを押して番号を追加</p>
         </footer>
       </main>
     </template>

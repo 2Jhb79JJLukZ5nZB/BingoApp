@@ -32,9 +32,7 @@ async function openAlwaysOnTopWindow() {
   addPopupStyles(pictureInPictureWindow.document);
   pictureInPictureWindow.document.body.append(popupTemplate.content.cloneNode(true));
 
-  window.BingoApp.initializeBoard(pictureInPictureWindow.document, {
-    close: () => pictureInPictureWindow.close(),
-  });
+  window.BingoApp.initializeBoard(pictureInPictureWindow.document);
 
   pictureInPictureWindow.addEventListener("pagehide", () => {
     pictureInPictureWindow = null;

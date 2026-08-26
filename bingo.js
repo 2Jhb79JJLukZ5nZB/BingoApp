@@ -3,7 +3,7 @@
 (function createBingoApp(global) {
   const STORAGE_KEY = "bingo-called-numbers-v1";
   const MIN_NUMBER = 1;
-  const MAX_NUMBER = 75;
+  const MAX_NUMBER = 100;
 
   function loadNumbers() {
     try {
@@ -26,7 +26,7 @@
   }
 
   function getBingoLetter(number) {
-    return "BINGO"[Math.floor((number - 1) / 15)];
+    return "BINGO"[Math.floor((number - 1) / 20)];
   }
 
   function initializeBoard(targetDocument, options = {}) {
@@ -35,9 +35,7 @@
     const numberGrid = targetDocument.querySelector("#numberGrid");
     const numberArea = targetDocument.querySelector("#numberArea");
     const emptyState = targetDocument.querySelector("#emptyState");
-    const numberCount = targetDocument.querySelector("#numberCount");
     const formMessage = targetDocument.querySelector("#formMessage");
-    const closeButton = targetDocument.querySelector("#closeApp");
 
     let calledNumbers = loadNumbers();
 
@@ -66,7 +64,7 @@
       removeButton.addEventListener("click", () => {
         calledNumbers = calledNumbers.filter((item) => item !== number);
         saveAndRender();
-        showMessage(`${number}番を削除しました。`, "success");
+        showMessage("");
         numberInput.focus();
       });
 
@@ -77,7 +75,6 @@
     function renderNumbers() {
       numberGrid.replaceChildren(...calledNumbers.map(createNumberCard));
       emptyState.hidden = calledNumbers.length > 0;
-      numberCount.textContent = String(calledNumbers.length);
     }
 
     function saveAndRender() {
@@ -107,7 +104,7 @@
 
       calledNumbers.push(number);
       saveAndRender();
-      showMessage(`${number}番を追加しました。`, "success");
+      showMessage("");
       numberInput.value = "";
       numberInput.focus();
 
@@ -117,7 +114,6 @@
     });
 
     numberInput.addEventListener("input", () => showMessage(""));
-    closeButton.addEventListener("click", () => options.close?.());
 
     global.addEventListener("storage", (event) => {
       if (event.key === STORAGE_KEY) {
