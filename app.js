@@ -12,7 +12,7 @@ function addPopupStyles(targetDocument) {
 
   const stylesheet = targetDocument.createElement("link");
   stylesheet.rel = "stylesheet";
-  stylesheet.href = new URL("popup.css?v=3", window.location.href).href;
+  stylesheet.href = new URL("popup.css?v=4", window.location.href).href;
 
   targetDocument.head.append(viewport, stylesheet);
 }

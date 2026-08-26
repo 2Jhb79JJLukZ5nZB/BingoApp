@@ -25,10 +25,6 @@
     global.localStorage.setItem(STORAGE_KEY, JSON.stringify(numbers));
   }
 
-  function getBingoLetter(number) {
-    return "BINGO"[Math.floor((number - 1) / 20)];
-  }
-
   function initializeBoard(targetDocument, options = {}) {
     const numberForm = targetDocument.querySelector("#numberForm");
     const numberInput = targetDocument.querySelector("#numberInput");
@@ -48,10 +44,6 @@
       const card = targetDocument.createElement("article");
       card.className = "number-card";
 
-      const letter = targetDocument.createElement("span");
-      letter.className = "number-card__letter";
-      letter.textContent = getBingoLetter(number);
-
       const value = targetDocument.createElement("span");
       value.className = "number-card__value";
       value.textContent = String(number);
@@ -68,7 +60,7 @@
         numberInput.focus();
       });
 
-      card.append(letter, value, removeButton);
+      card.append(value, removeButton);
       return card;
     }
 

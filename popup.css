@@ -53,45 +53,36 @@ input {
 .number-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  padding: 20px 24px;
+  gap: 6px;
+  padding: 10px 12px;
 }
 
 .number-card {
   position: relative;
   display: flex;
-  min-height: 84px;
+  min-height: 52px;
   align-items: center;
   justify-content: center;
   border: 1px solid #e2e6e9;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #ffffff;
 }
 
-.number-card__letter {
-  position: absolute;
-  top: 9px;
-  left: 11px;
-  color: #ff8700;
-  font-size: 0.62rem;
-  font-weight: 800;
-}
-
 .number-card__value {
-  font-size: clamp(1.65rem, 7vw, 2.2rem);
+  font-size: clamp(1.25rem, 5vw, 1.65rem);
   font-weight: 750;
   line-height: 1;
 }
 
 .remove-button {
   position: absolute;
-  top: 7px;
-  right: 7px;
-  width: 25px;
-  height: 25px;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
   background: #f0f2f3;
   color: #808890;
-  font-size: 0.95rem;
+  font-size: 0.78rem;
 }
 
 .remove-button:hover {
@@ -213,12 +204,12 @@ input:focus-visible {
   }
 
   .number-grid {
-    gap: 7px;
-    padding: 14px 10px;
+    gap: 5px;
+    padding: 8px;
   }
 
   .number-card {
-    min-height: 76px;
+    min-height: 48px;
   }
 
   .number-form {
