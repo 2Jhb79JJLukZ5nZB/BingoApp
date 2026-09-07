@@ -40,31 +40,46 @@ function handleCalledNumber(number, special) {
   if (special) slidesFrame.src = slideUrl(special.slide);
 }
 async function sendUpdate(payload) {
+  if (!config.appsScriptUrl) return false;
+  try {
+    const result = await requestJsonp(payload);
+    return result.ok === true;
+  } catch {
+    syncStatus.textContent = "スプレッドシートに接続できません。Apps Scriptの公開設定を確認してください。";
+    return false;
+  }
+}
+function requestJsonp(parameters = {}) {
+  return new Promise((resolve, reject) => {
+    const callback = "bingoSync" + Date.now() + Math.floor(Math.random() * 10000);
+    const script = document.createElement("script");
+    const query = new URLSearchParams({ ...parameters, callback });
+    const separator = config.appsScriptUrl.includes("?") ? "&" : "?";
+    const timeout = window.setTimeout(() => cleanup(new Error("timeout")), 10000);
+    function cleanup(error, data) {
+      window.clearTimeout(timeout);
+      delete window[callback];
+      script.remove();
+      error ? reject(error) : resolve(data);
+    }
+    window[callback] = (data) => cleanup(null, data);
+    script.onerror = () => cleanup(new Error("load failed"));
+    script.src = config.appsScriptUrl + separator + query.toString();
+    document.head.append(script);
+  });
+}
+async function loadRemoteRegistrations() {
   if (!config.appsScriptUrl) return;
   try {
-    await fetch(config.appsScriptUrl, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(payload) });
-  } catch { syncStatus.textContent = "スプレッドシートへの保存に失敗しました。"; }
-}
-function loadRemoteRegistrations() {
-  if (!config.appsScriptUrl) return;
-  const callback = `bingoSync${Date.now()}`;
-  const script = document.createElement("script");
-  const separator = config.appsScriptUrl.includes("?") ? "&" : "?";
-  window[callback] = (data) => {
+    const data = await requestJsonp();
     if (Array.isArray(data.registrations)) {
       registrations = data.registrations;
       saveRegistrations();
       if (!views.register.hidden) renderRegistrations();
     }
-    delete window[callback];
-    script.remove();
-  };
-  script.src = `${config.appsScriptUrl}${separator}callback=${callback}`;
-  script.onerror = () => {
-    delete window[callback];
-    script.remove();
-  };
-  document.head.append(script);
+  } catch {
+    syncStatus.textContent = "スプレッドシートに接続できません。";
+  }
 }
 function renderRegistrations() {
   if (!registrations.length) {
@@ -93,7 +108,7 @@ function renderRegistrations() {
     return row;
   }));
 }
-registerForm.addEventListener("submit", (event) => {
+registerForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const number = Number(document.querySelector("#specialNumber").value);
   const slide = Number(document.querySelector("#slideNumber").value);
@@ -106,8 +121,10 @@ registerForm.addEventListener("submit", (event) => {
   registrations.sort((a, b) => a.number - b.number);
   saveRegistrations();
   renderRegistrations();
-  sendUpdate({ action: "register", number, slide });
-  syncStatus.textContent = config.appsScriptUrl ? "登録しました。" : "この端末に登録しました。スプレッドシート連携は未設定です。";
+  const saved = await sendUpdate({ action: "register", number, slide });
+  syncStatus.textContent = config.appsScriptUrl
+    ? saved ? "スプレッドシートに登録しました。" : "端末には登録しましたが、スプレッドシートへ保存できませんでした。"
+    : "この端末に登録しました。スプレッドシート連携は未設定です。";
   registerForm.reset();
 });
 document.querySelector("#openGame").addEventListener("click", () => showView("game"));
