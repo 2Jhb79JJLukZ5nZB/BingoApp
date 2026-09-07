@@ -34,6 +34,7 @@
     const formMessage = targetDocument.querySelector("#formMessage");
 
     let calledNumbers = loadNumbers();
+    let specialNumbers = options.specialNumbers ?? [];
 
     function showMessage(message, type = "error") {
       formMessage.textContent = message;
@@ -43,6 +44,8 @@
     function createNumberCard(number) {
       const card = targetDocument.createElement("article");
       card.className = "number-card";
+      const special = specialNumbers.find((item) => item.number === number);
+      card.classList.toggle("is-special", Boolean(special));
 
       const value = targetDocument.createElement("span");
       value.className = "number-card__value";
@@ -57,6 +60,7 @@
         calledNumbers = calledNumbers.filter((item) => item !== number);
         saveAndRender();
         showMessage("");
+        options.onNumberRemoved?.(number);
         numberInput.focus();
       });
 
@@ -97,6 +101,8 @@
       calledNumbers.push(number);
       saveAndRender();
       showMessage("");
+      const special = specialNumbers.find((item) => item.number === number);
+      options.onNumberAdded?.(number, special);
       numberInput.value = "";
       numberInput.focus();
 
@@ -116,6 +122,13 @@
 
     renderNumbers();
     global.setTimeout(() => numberInput.focus(), 80);
+
+    return {
+      setSpecialNumbers(value) {
+        specialNumbers = Array.isArray(value) ? value : [];
+        renderNumbers();
+      },
+    };
   }
 
   global.BingoApp = {

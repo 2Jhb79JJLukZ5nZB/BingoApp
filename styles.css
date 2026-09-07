@@ -1,66 +1,39 @@
-:root {
-  color: #17191c;
-  background: #eef0f2;
-}
-
-html,
-body {
-  width: 100%;
-  min-width: 320px;
-  height: 100%;
-  min-height: 100%;
-  overflow: hidden;
-  background: #eef0f2;
-}
-
-.workspace {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(340px, 28vw, 430px);
-  width: 100%;
-  height: 100dvh;
-  gap: 1px;
-  background: #dfe3e6;
-}
-
-.slides-panel {
-  display: grid;
-  min-width: 0;
-  min-height: 0;
-  place-items: center;
-  overflow: hidden;
-  background: #111111;
-}
-
-.slides-panel iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: #111111;
-}
-
-.board-panel {
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-  background: #ffffff;
-}
-
+:root { color: #17191c; background: #f3f5f4; }
+html, body { width: 100%; min-width: 320px; min-height: 100%; margin: 0; }
+body { background: #f3f5f4; }
+[hidden] { display: none !important; }
+button, input { font: inherit; }
+.view { min-height: 100dvh; }
+.home-view { display: grid; place-items: center; padding: 24px; }
+.menu-card { display: grid; width: min(100%, 420px); gap: 14px; padding: 42px 38px; border: 1px solid #e2e6e9; border-radius: 16px; background: #fff; }
+.menu-card h1 { margin: 0 0 14px; text-align: center; font-size: 1.8rem; }
+.primary-button, .secondary-button { min-height: 52px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+.primary-button { border: 0; background: #087ff5; color: #fff; }
+.primary-button:hover { background: #006ed9; }
+.secondary-button { border: 1px solid #bfc7ce; background: #fff; color: #24282c; }
+.page-header { display: grid; grid-template-columns: 110px 1fr 110px; align-items: center; padding: 16px 24px; border-bottom: 1px solid #e2e6e9; background: #fff; }
+.page-header h1 { grid-column: 2; margin: 0; text-align: center; font-size: 1.45rem; }
+.back-button, .game-back-button { border: 0; background: #fff; color: #087ff5; font-weight: 700; cursor: pointer; }
+.register-content { width: min(100% - 32px, 720px); margin: 0 auto; padding: 32px 0; }
+.register-form { display: grid; grid-template-columns: 1fr 1fr 110px; gap: 12px; align-items: end; padding: 20px; border: 1px solid #e2e6e9; border-radius: 12px; background: #fff; }
+.register-form label { display: grid; gap: 7px; font-size: .88rem; font-weight: 700; }
+.register-form input { width: 100%; height: 48px; padding: 0 12px; border: 1px solid #c8ced3; border-radius: 7px; box-sizing: border-box; }
+.register-form .primary-button { min-height: 48px; }
+.sync-status { min-height: 1.4em; margin: 12px 4px; color: #687078; font-size: .82rem; }
+.registration-list { display: grid; gap: 8px; }
+.registration-row { display: grid; grid-template-columns: 1fr 1fr auto; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid #e2e6e9; border-radius: 9px; background: #fff; }
+.registration-number { color: #e96800; font-size: 1.25rem; font-weight: 800; }
+.delete-registration { border: 0; background: transparent; color: #c43d35; cursor: pointer; }
+.empty-registration { margin: 28px 0; color: #858d94; text-align: center; }
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) clamp(340px, 28vw, 430px); width: 100%; height: 100dvh; gap: 1px; background: #dfe3e6; }
+.slides-panel { position: relative; display: grid; min-width: 0; min-height: 0; place-items: center; overflow: hidden; background: #111; }
+.slides-panel iframe { display: block; width: 100%; height: 100%; border: 0; background: #111; }
+.game-back-button { position: absolute; z-index: 2; top: 10px; left: 10px; padding: 8px 11px; border-radius: 7px; box-shadow: 0 2px 8px rgba(0,0,0,.16); }
+.board-panel { min-width: 0; min-height: 0; overflow: hidden; background: #fff; }
+.number-card.is-special .number-card__value { color: #e96800; }
 @media (max-width: 760px) {
-  html,
-  body {
-    height: auto;
-    overflow: auto;
-  }
-
-  .workspace {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(620px, 70dvh);
-    height: auto;
-    min-height: 100dvh;
-  }
-
-  .slides-panel {
-    aspect-ratio: 1440 / 839;
-  }
+  .workspace { grid-template-columns: 1fr; grid-template-rows: auto minmax(620px, 70dvh); height: auto; }
+  .slides-panel { aspect-ratio: 1440 / 839; }
+  .register-form { grid-template-columns: 1fr; }
+  .page-header { grid-template-columns: 90px 1fr 90px; padding: 14px 12px; }
 }
