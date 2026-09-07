@@ -3,75 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f3f5f4" />
-    <meta
-      name="description"
-      content="ビンゴで呼ばれた番号を、3列の見やすいボードで記録・確認できるシンプルなアプリです。"
-    />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="Googleスライドを表示しながら、呼ばれたビンゴ番号を記録できるアプリです。" />
     <meta property="og:title" content="ビンゴボード" />
-    <meta
-      property="og:description"
-      content="呼ばれた番号を、見やすい3列のボードに記録できます。"
-    />
+    <meta property="og:description" content="スライドを表示しながら、ビンゴ番号を記録できます。" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:image"
-      content="https://2jhb79jjlukz5nzb.github.io/BingoApp/og.png"
-    />
+    <meta property="og:image" content="https://2jhb79jjlukz5nzb.github.io/BingoApp/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ビンゴボード" />
-    <meta
-      name="twitter:description"
-      content="呼ばれた番号を、見やすい3列のボードに記録できます。"
-    />
-    <meta
-      name="twitter:image"
-      content="https://2jhb79jjlukz5nzb.github.io/BingoApp/og.png"
-    />
+    <meta name="twitter:description" content="スライドを表示しながら、ビンゴ番号を記録できます。" />
+    <meta name="twitter:image" content="https://2jhb79jjlukz5nzb.github.io/BingoApp/og.png" />
     <title>ビンゴボード</title>
-    <link rel="stylesheet" href="styles.css?v=3" />
-    <script src="bingo.js?v=4" defer></script>
-    <script src="app.js?v=4" defer></script>
+    <link rel="stylesheet" href="popup.css?v=5" />
+    <link rel="stylesheet" href="styles.css?v=5" />
+    <script src="bingo.js?v=5" defer></script>
+    <script src="app.js?v=5" defer></script>
   </head>
   <body>
-    <main class="home">
-      <section class="launch-card" aria-labelledby="appTitle">
-        <h1 id="appTitle">ビンゴボード</h1>
-        <button class="open-button" id="openApp" type="button">ポップアップを開く</button>
+    <main class="workspace">
+      <section class="slides-panel" aria-label="Googleスライド">
+        <iframe
+          src="https://docs.google.com/presentation/d/e/2PACX-1vSzIxbaBBK4gC2dAX1DN__5YAatrCnROIr-iCfshRJ-JOKgQm0nsgcUKgmOs1wSFMVTMlfKOMc5VwWH/pubembed?start=false&amp;loop=false&amp;delayms=60000"
+          title="ビンゴ用スライド"
+          allow="autoplay; fullscreen"
+          allowfullscreen
+          loading="eager"
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </section>
+
+      <section class="board-panel" aria-label="ビンゴボード">
+        <div class="popup-shell">
+          <section class="number-area" id="numberArea" aria-label="呼ばれた番号の一覧">
+            <div class="number-grid" id="numberGrid" aria-live="polite"></div>
+            <div class="empty-state" id="emptyState">
+              <p>番号を追加してください</p>
+            </div>
+          </section>
+
+          <footer class="entry-area">
+            <form class="number-form" id="numberForm" novalidate>
+              <div class="input-wrap">
+                <label for="numberInput">番号</label>
+                <input
+                  id="numberInput"
+                  name="number"
+                  type="number"
+                  min="1"
+                  max="100"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="1〜100"
+                  required
+                />
+              </div>
+              <button class="add-button" type="submit">追加</button>
+            </form>
+            <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
+            <p class="entry-hint">追加ボタンまたはEnterキーを押して番号を追加</p>
+          </footer>
+        </div>
       </section>
     </main>
-
-    <template id="popupTemplate">
-      <main class="popup-shell">
-        <section class="number-area" id="numberArea" aria-label="呼ばれた番号の一覧">
-          <div class="number-grid" id="numberGrid" aria-live="polite"></div>
-          <div class="empty-state" id="emptyState">
-            <p>番号を追加してください</p>
-          </div>
-        </section>
-
-        <footer class="entry-area">
-          <form class="number-form" id="numberForm" novalidate>
-            <div class="input-wrap">
-              <label for="numberInput">番号</label>
-              <input
-                id="numberInput"
-                name="number"
-                type="number"
-                min="1"
-                max="100"
-                inputmode="numeric"
-                autocomplete="off"
-                placeholder="1〜100"
-                required
-              />
-            </div>
-            <button class="add-button" type="submit">追加</button>
-          </form>
-          <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
-          <p class="entry-hint">追加ボタンまたはEnterキーを押して番号を追加</p>
-        </footer>
-      </main>
-    </template>
   </body>
 </html>

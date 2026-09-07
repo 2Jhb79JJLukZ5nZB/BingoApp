@@ -1,76 +1,66 @@
 :root {
-  font-family: "Noto Sans JP", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
   color: #17191c;
-  background: #f3f5f4;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  background: #eef0f2;
 }
 
-* {
-  box-sizing: border-box;
-}
-
+html,
 body {
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
-  background: #f3f5f4;
-}
-
-button {
-  font: inherit;
-}
-
-.home {
-  display: grid;
-  min-height: 100vh;
-  place-items: center;
-  padding: 24px;
-}
-
-.launch-card {
-  width: min(100%, 420px);
-  padding: 44px 40px;
-  border: 1px solid #e8ebea;
-  border-radius: 18px;
-  background: #ffffff;
-  box-shadow: 0 12px 32px rgba(23, 30, 27, 0.08);
-  text-align: center;
-}
-
-.launch-card h1 {
-  margin: 0 0 28px;
-  font-size: clamp(1.55rem, 6vw, 1.9rem);
-  letter-spacing: -0.04em;
-}
-
-.open-button {
   width: 100%;
-  height: 52px;
+  min-width: 320px;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background: #eef0f2;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(340px, 28vw, 430px);
+  width: 100%;
+  height: 100dvh;
+  gap: 1px;
+  background: #dfe3e6;
+}
+
+.slides-panel {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  place-items: center;
+  overflow: hidden;
+  background: #111111;
+}
+
+.slides-panel iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
   border: 0;
-  border-radius: 9px;
-  background: #087ff5;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
+  background: #111111;
 }
 
-.open-button:hover {
-  background: #006ed9;
+.board-panel {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: #ffffff;
 }
 
-.open-button:active {
-  background: #005ebc;
-}
+@media (max-width: 760px) {
+  html,
+  body {
+    height: auto;
+    overflow: auto;
+  }
 
-.open-button:focus-visible {
-  outline: 3px solid rgba(8, 127, 245, 0.28);
-  outline-offset: 3px;
-}
+  .workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(620px, 70dvh);
+    height: auto;
+    min-height: 100dvh;
+  }
 
-@media (max-width: 480px) {
-  .launch-card {
-    padding: 36px 24px;
+  .slides-panel {
+    aspect-ratio: 1440 / 839;
   }
 }
