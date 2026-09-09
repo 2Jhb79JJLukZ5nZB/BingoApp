@@ -6,18 +6,51 @@
   <meta name="theme-color" content="#f3f5f4" />
   <meta name="description" content="世界遺産クイズとビンゴを同時に楽しめるウェブアプリです。" />
   <title>世界遺産ビンゴ</title>
-  <link rel="stylesheet" href="popup.css?v=8" />
-  <link rel="stylesheet" href="styles.css?v=8" />
-  <script src="heritages.js?v=6" defer></script>
-  <script src="bingo.js?v=8" defer></script>
-  <script src="app.js?v=10" defer></script>
+  <link rel="stylesheet" href="popup.css?v=9" />
+  <link rel="stylesheet" href="styles.css?v=25" />
+  <script src="heritages.js?v=21" defer></script>
+  <script src="pictures/manifest.js?v=2" defer></script>
+  <script src="bingo.js?v=10" defer></script>
+  <script src="app.js?v=27" defer></script>
 </head>
 <body>
-  <section class="view rules-view" id="rulesView">
+  <section class="view home-view" id="homeView">
+    <div class="menu-card">
+      <p class="eyebrow">HOW TO PLAY</p>
+      <h1>世界遺産ビンゴ</h1>
+      <ol class="instructions">
+        <li>キーボードの<span class="window-icon" aria-label="Chromebookの最大化アイコン"><i></i></span>を押して、ウィンドウを最大化します。</li>
+        <li>「ビンゴを開始」をタッチまたはクリックします。</li>
+        <li>ビンゴで出た番号を、画面右下の入力ボックスに入力します。</li>
+        <li>世界遺産が割り当てられた番号が出ると、その世界遺産の紹介画面が表示されます。画面をタッチするか、キーボードのいずれかのキーを押して、クイズを表示します。</li>
+        <li>参加者がクイズに答え終わったら、もう一度画面をタッチするか、キーボードのいずれかのキーを押して、正解を表示します。</li>
+      </ol>
+      <p class="menu-note">※番号を間違えて入力した場合は、その番号の右上にある「×」をクリックすると削除できます。</p>
+      <div class="timer-controls">
+        <label for="startTimeInput">開始時刻</label>
+        <input id="startTimeInput" type="time" step="1" required />
+        <button class="secondary-button" id="openTimer" type="button">タイマーを表示</button>
+      </div>
+      <button class="primary-button" id="openRules" type="button">ビンゴを開始</button>
+    </div>
+  </section>
+  <section class="view timer-view" id="timerView" hidden>
+    <div class="timer-background" aria-hidden="true">
+      <img class="timer-background-image is-active" alt="" />
+      <img class="timer-background-image" alt="" />
+    </div>
+    <div class="timer-content">
+      <p class="eyebrow">WORLD HERITAGE BINGO</p>
+      <h1>次のビンゴ大会は<span id="startTimeText">XX:XX:XX</span>から！</h1>
+      <p class="countdown-caption">開始まであと</p>
+      <p class="countdown" id="countdownText">ZZ:ZZ:ZZ</p>
+      <button class="primary-button" id="timerStartGame" type="button">ビンゴを開始</button>
+    </div>
+  </section>
+  <section class="view rules-view" id="rulesView" hidden>
     <div class="rules-card">
       <div class="rules-visual" aria-hidden="true">
         <img id="rulesImage" alt="" />
-        <div class="bingo-sample"><span>B</span><span>I</span><span>N</span><span>G</span><span>O</span><b>8</b><b>21</b><b>34</b><b>47</b><b>60</b></div>
       </div>
       <div class="rules-copy">
         <p class="eyebrow">WORLD HERITAGE BINGO</p>
@@ -25,27 +58,13 @@
         <p class="rules-lead">1～100の数字を使って行う、クイズ付きのビンゴゲームです。</p>
         <ul>
           <li>読み上げられた数字と同じマスを開けます。</li>
-          <li>特定の数字が出たら、世界遺産に関するクイズが出題されます。</li>
-          <li>クイズに正解した人は、好きなマスを1つ開けることができます。</li>
-          <li>完成したビンゴの本数に応じて、景品と交換できます。</li>
+          <li>特定の数字が出たら世界遺産に関するクイズが出題されます。</li>
+          <li>クイズに正解した人は好きなマスを1つ開けることができます。</li>
+          <li>完成したビンゴの数に応じて景品と交換できます。</li>
         </ul>
         <p class="rules-finish">世界遺産のクイズに答えながら、たくさんのビンゴを目指しましょう！</p>
-        <button class="primary-button" id="openMenu" type="button">ビンゴを始める</button>
+        <button class="primary-button" id="startGame" type="button">ビンゴを始める</button>
       </div>
-    </div>
-  </section>
-  <section class="view home-view" id="homeView" hidden>
-    <div class="menu-card">
-      <p class="eyebrow">HOW TO PLAY</p>
-      <h1>世界遺産ビンゴ</h1>
-      <ol class="instructions">
-        <li><span class="window-icon" aria-label="最大化アイコン"><i></i></span>を押して、ウィンドウを最大化します。</li>
-        <li>「ビンゴを開始」をクリックします。</li>
-        <li>ビンゴで出た番号を、画面右下の入力ボックスに入力します。</li>
-        <li>世界遺産が割り当てられた番号が出ると、その世界遺産の紹介画面が表示されます。画面をタッチするか、キーボードのいずれかのキーを押して、クイズを表示します。</li>
-        <li>参加者がクイズに答え終わったら、もう一度画面をタッチするか、キーボードのいずれかのキーを押して、正解を表示します。</li>
-      </ol>
-      <button class="primary-button" id="openGame" type="button">ビンゴを開始</button>
     </div>
   </section>
   <section class="view game-view" id="gameView" hidden>
@@ -67,6 +86,7 @@
       <section class="board-panel" aria-label="ビンゴボード">
         <div class="popup-shell">
           <section class="number-area" id="numberArea" aria-label="呼ばれた番号の一覧">
+            <div class="number-toolbar"><button class="clear-all-button" id="clearAllButton" type="button">すべて消去</button></div>
             <div class="number-grid" id="numberGrid" aria-live="polite"></div>
             <div class="empty-state" id="emptyState"><p>番号を追加してください</p></div>
           </section>
@@ -76,7 +96,6 @@
               <button class="add-button" type="submit">追加</button>
             </form>
             <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
-            <p class="entry-hint">追加ボタンまたはEnterキーを押して番号を追加</p>
           </footer>
         </div>
       </section>

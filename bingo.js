@@ -36,6 +36,7 @@
     const numberArea = targetDocument.querySelector("#numberArea");
     const emptyState = targetDocument.querySelector("#emptyState");
     const formMessage = targetDocument.querySelector("#formMessage");
+    const clearAllButton = targetDocument.querySelector("#clearAllButton");
 
     let calledNumbers = loadNumbers();
     let specialNumbers = options.specialNumbers ?? [];
@@ -50,6 +51,7 @@
       card.className = "number-card";
       const special = specialNumbers.find((item) => item.number === number);
       card.classList.toggle("is-special", Boolean(special));
+      card.classList.toggle("is-latest", calledNumbers.at(-1) === number);
 
       const value = targetDocument.createElement("span");
       value.className = "number-card__value";
@@ -75,6 +77,7 @@
     function renderNumbers() {
       numberGrid.replaceChildren(...calledNumbers.map(createNumberCard));
       emptyState.hidden = calledNumbers.length > 0;
+      if (clearAllButton) clearAllButton.disabled = calledNumbers.length === 0;
     }
 
     function saveAndRender() {
@@ -120,6 +123,20 @@
       const normalizedValue = normalizeDigits(numberInput.value);
       if (numberInput.value !== normalizedValue) numberInput.value = normalizedValue;
       showMessage("");
+    });
+
+    clearAllButton?.addEventListener("click", () => {
+      if (!calledNumbers.length) return;
+      if (!global.confirm("登録した番号をすべて削除しますか？")) {
+        numberInput.focus();
+        return;
+      }
+
+      calledNumbers = [];
+      saveAndRender();
+      showMessage("");
+      options.onAllCleared?.();
+      numberInput.focus();
     });
 
     global.addEventListener("storage", (event) => {
