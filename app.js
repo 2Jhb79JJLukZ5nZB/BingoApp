@@ -29,12 +29,6 @@ function showGame() {
   document.querySelector("#numberInput").focus();
 }
 
-function showHome() {
-  gameView.hidden = true;
-  homeView.hidden = false;
-  document.querySelector("#openGame").focus();
-}
-
 async function loadWikipediaImage(heritage, requestId) {
   const title = encodeURIComponent(heritage.wikipedia);
   try {
@@ -96,4 +90,3 @@ document.addEventListener("keydown", (event) => {
   if (!gameView.hidden && !event.target.matches("input, button")) advanceHeritage();
 });
 document.querySelector("#openGame").addEventListener("click", showGame);
-document.querySelector("#backButton").addEventListener("click", showHome);

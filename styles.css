@@ -28,7 +28,6 @@ button, input { font: inherit; }
 .show-answer .quiz-label { color: #71d592; }
 .advance-hint { margin: 24px 0 0; color: #fff; font-size: .9rem; }
 .image-credit { position: absolute; right: 12px; bottom: 10px; color: rgba(255,255,255,.8); font-size: .72rem; text-decoration: none; }
-.game-back-button { position: absolute; z-index: 3; top: 12px; left: 12px; padding: 9px 12px; border: 0; border-radius: 7px; background: #fff; color: #087ff5; font-weight: 700; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
 .board-panel { min-width: 0; min-height: 0; overflow: hidden; background: #fff; }
 .number-card.is-special .number-card__value { color: #e96800; }
 @media (max-width: 760px) {
