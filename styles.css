@@ -18,7 +18,7 @@ button, input { font: inherit; }
 .rules-visual::after { position: absolute; inset: 0; content: ""; background: rgba(7,16,24,.2); }
 .rules-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(40px, 5vw, 92px); background: #fff; }
 .rules-copy .eyebrow { font-size: 1rem; }
-.rules-copy h1 { margin: 12px 0 24px; font-size: clamp(3rem, 4.3vw, 5rem); line-height: 1.15; }
+.rules-copy h1 { margin: 12px 0 24px; font-size: clamp(2rem, 3.4vw, 4rem); line-height: 1.15; white-space: nowrap; }
 .rules-lead { margin: 0 0 26px; font-size: clamp(1.25rem, 1.5vw, 1.65rem); font-weight: 700; line-height: 1.6; }
 .rules-copy ul { display: grid; gap: 18px; margin: 0; padding-left: 1.35em; font-size: clamp(1.12rem, 1.25vw, 1.4rem); line-height: 1.65; }
 .rules-copy li::marker { color: #e96800; }
@@ -97,6 +97,7 @@ button, input { font: inherit; }
   .rules-card { grid-template-columns: 1fr; }
   .rules-visual { min-height: 46dvh; }
   .rules-copy { padding: 36px 24px; }
+  .rules-copy h1 { font-size: clamp(1.6rem, 6.5vw, 3rem); }
   .timer-controls { grid-template-columns: 1fr; }
   .timer-controls label { grid-column: auto; }
   .timer-content h1 { white-space: normal; }
