@@ -3,7 +3,11 @@
 (function createBingoApp(global) {
   const STORAGE_KEY = "bingo-called-numbers-v1";
   const MIN_NUMBER = 1;
-  const MAX_NUMBER = 1000;
+  const MAX_NUMBER = 100;
+
+  function normalizeDigits(value) {
+    return String(value).replace(/[０-９]/g, (digit) => String(digit.charCodeAt(0) - 0xFF10));
+  }
 
   function loadNumbers() {
     try {
@@ -86,7 +90,8 @@
 
     numberForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      const number = Number(numberInput.value);
+      const normalizedValue = normalizeDigits(numberInput.value).trim();
+      const number = Number(normalizedValue);
 
       if (!Number.isInteger(number) || number < MIN_NUMBER || number > MAX_NUMBER) {
         showMessage(`${MIN_NUMBER}〜${MAX_NUMBER}の整数を入力してください。`);
@@ -111,7 +116,11 @@
       });
     });
 
-    numberInput.addEventListener("input", () => showMessage(""));
+    numberInput.addEventListener("input", () => {
+      const normalizedValue = normalizeDigits(numberInput.value);
+      if (numberInput.value !== normalizedValue) numberInput.value = normalizedValue;
+      showMessage("");
+    });
 
     global.addEventListener("storage", (event) => {
       if (event.key === STORAGE_KEY) {

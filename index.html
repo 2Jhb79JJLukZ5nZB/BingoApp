@@ -6,17 +6,46 @@
   <meta name="theme-color" content="#f3f5f4" />
   <meta name="description" content="世界遺産クイズとビンゴを同時に楽しめるウェブアプリです。" />
   <title>世界遺産ビンゴ</title>
-  <link rel="stylesheet" href="popup.css?v=7" />
-  <link rel="stylesheet" href="styles.css?v=7" />
-  <script src="heritages.js?v=1" defer></script>
-  <script src="bingo.js?v=7" defer></script>
-  <script src="app.js?v=9" defer></script>
+  <link rel="stylesheet" href="popup.css?v=8" />
+  <link rel="stylesheet" href="styles.css?v=8" />
+  <script src="heritages.js?v=6" defer></script>
+  <script src="bingo.js?v=8" defer></script>
+  <script src="app.js?v=10" defer></script>
 </head>
 <body>
-  <section class="view home-view" id="homeView">
+  <section class="view rules-view" id="rulesView">
+    <div class="rules-card">
+      <div class="rules-visual" aria-hidden="true">
+        <img id="rulesImage" alt="" />
+        <div class="bingo-sample"><span>B</span><span>I</span><span>N</span><span>G</span><span>O</span><b>8</b><b>21</b><b>34</b><b>47</b><b>60</b></div>
+      </div>
+      <div class="rules-copy">
+        <p class="eyebrow">WORLD HERITAGE BINGO</p>
+        <h1>世界遺産ビンゴとは？</h1>
+        <p class="rules-lead">1～100の数字を使って行う、クイズ付きのビンゴゲームです。</p>
+        <ul>
+          <li>読み上げられた数字と同じマスを開けます。</li>
+          <li>特定の数字が出たら、世界遺産に関するクイズが出題されます。</li>
+          <li>クイズに正解した人は、好きなマスを1つ開けることができます。</li>
+          <li>完成したビンゴの本数に応じて、景品と交換できます。</li>
+        </ul>
+        <p class="rules-finish">世界遺産のクイズに答えながら、たくさんのビンゴを目指しましょう！</p>
+        <button class="primary-button" id="openMenu" type="button">ビンゴを始める</button>
+      </div>
+    </div>
+  </section>
+  <section class="view home-view" id="homeView" hidden>
     <div class="menu-card">
+      <p class="eyebrow">HOW TO PLAY</p>
       <h1>世界遺産ビンゴ</h1>
-      <button class="primary-button" id="openGame" type="button">ゲームを開く</button>
+      <ol class="instructions">
+        <li><span class="window-icon" aria-label="最大化アイコン"><i></i></span>を押して、ウィンドウを最大化します。</li>
+        <li>「ビンゴを開始」をクリックします。</li>
+        <li>ビンゴで出た番号を、画面右下の入力ボックスに入力します。</li>
+        <li>世界遺産が割り当てられた番号が出ると、その世界遺産の紹介画面が表示されます。画面をタッチするか、キーボードのいずれかのキーを押して、クイズを表示します。</li>
+        <li>参加者がクイズに答え終わったら、もう一度画面をタッチするか、キーボードのいずれかのキーを押して、正解を表示します。</li>
+      </ol>
+      <button class="primary-button" id="openGame" type="button">ビンゴを開始</button>
     </div>
   </section>
   <section class="view game-view" id="gameView" hidden>
@@ -24,7 +53,7 @@
       <section class="heritage-panel" id="heritagePanel" tabindex="0" aria-label="世界遺産とクイズ">
         <div class="heritage-empty" id="heritageEmpty"><h1>世界遺産クイズ</h1><p>右側で番号を入力してください</p></div>
         <article class="heritage-card" id="heritageCard" hidden>
-          <img id="heritageImage" alt="" />
+          <div class="heritage-images"><img class="heritage-image is-active" alt="" /><img class="heritage-image" alt="" /></div>
           <div class="image-shade" aria-hidden="true"></div>
           <div class="heritage-content">
             <p class="heritage-rank" id="heritageRank"></p>
@@ -43,7 +72,7 @@
           </section>
           <footer class="entry-area">
             <form class="number-form" id="numberForm" novalidate>
-              <div class="input-wrap"><label for="numberInput">番号</label><input id="numberInput" name="number" type="number" min="1" max="1000" inputmode="numeric" autocomplete="off" placeholder="番号を入力" required /></div>
+              <div class="input-wrap"><label for="numberInput">番号</label><input id="numberInput" name="number" type="text" inputmode="numeric" autocomplete="off" placeholder="番号を入力" required /></div>
               <button class="add-button" type="submit">追加</button>
             </form>
             <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
