@@ -49,11 +49,11 @@ button, input { font: inherit; }
 .countdown { margin: 0; color: #e96800; font-variant-numeric: tabular-nums; font-size: clamp(3rem, 11vw, 9rem); font-weight: 800; letter-spacing: .02em; line-height: 1; }
 .countdown-caption { margin: 0 0 14px; font-size: clamp(1.2rem, 2.5vw, 2rem); font-weight: 700; }
 .countdown + .primary-button { margin-top: 42px; }
-.window-icon { position: relative; display: inline-block; width: 20px; height: 14px; margin: 0 5px; vertical-align: -2px; }
+.window-icon { position: relative; display: inline-block; width: 24px; height: 18px; margin: 0 5px; vertical-align: -4px; }
 .window-icon::before,
 .window-icon::after,
 .window-icon i::before,
-.window-icon i::after { content: ""; position: absolute; width: 7px; height: 5px; }
+.window-icon i::after { content: ""; position: absolute; width: 8px; height: 5px; }
 .window-icon::before { top: 0; left: 0; border-top: 2px solid #343a40; border-left: 2px solid #343a40; }
 .window-icon::after { top: 0; right: 0; border-top: 2px solid #343a40; border-right: 2px solid #343a40; }
 .window-icon i { position: absolute; inset: 0; display: block; }
