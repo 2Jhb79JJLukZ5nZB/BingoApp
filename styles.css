@@ -49,12 +49,16 @@ button, input { font: inherit; }
 .countdown { margin: 0; color: #e96800; font-variant-numeric: tabular-nums; font-size: clamp(3rem, 11vw, 9rem); font-weight: 800; letter-spacing: .02em; line-height: 1; }
 .countdown-caption { margin: 0 0 14px; font-size: clamp(1.2rem, 2.5vw, 2rem); font-weight: 700; }
 .countdown + .primary-button { margin-top: 42px; }
-.window-icon { position: relative; display: inline-block; width: 20px; height: 14px; margin: 0 5px; border: 2px solid #343a40; border-radius: 1px; vertical-align: -2px; }
+.window-icon { position: relative; display: inline-block; width: 20px; height: 14px; margin: 0 5px; vertical-align: -2px; }
 .window-icon::before,
-.window-icon::after { content: ""; position: absolute; width: 7px; height: 6px; background: #343a40; }
-.window-icon::before { top: 2px; left: 2px; clip-path: polygon(0 0, 100% 0, 0 100%); }
-.window-icon::after { right: 2px; bottom: 2px; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
-.window-icon i { display: none; }
+.window-icon::after,
+.window-icon i::before,
+.window-icon i::after { content: ""; position: absolute; width: 7px; height: 5px; }
+.window-icon::before { top: 0; left: 0; border-top: 2px solid #343a40; border-left: 2px solid #343a40; }
+.window-icon::after { top: 0; right: 0; border-top: 2px solid #343a40; border-right: 2px solid #343a40; }
+.window-icon i { position: absolute; inset: 0; display: block; }
+.window-icon i::before { bottom: 0; left: 0; border-bottom: 2px solid #343a40; border-left: 2px solid #343a40; }
+.window-icon i::after { right: 0; bottom: 0; border-right: 2px solid #343a40; border-bottom: 2px solid #343a40; }
 
 .workspace { display: grid; grid-template-columns: minmax(0, 1fr) clamp(340px, 28vw, 430px); width: 100%; height: 100dvh; gap: 1px; background: #dfe3e6; }
 .heritage-panel { position: relative; min-width: 0; min-height: 0; overflow: hidden; outline: none; background: #17191c; color: #fff; cursor: pointer; }
