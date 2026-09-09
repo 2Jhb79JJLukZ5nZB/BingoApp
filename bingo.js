@@ -3,7 +3,7 @@
 (function createBingoApp(global) {
   const STORAGE_KEY = "bingo-called-numbers-v1";
   const MIN_NUMBER = 1;
-  const MAX_NUMBER = 100;
+  const MAX_NUMBER = 1000;
 
   function loadNumbers() {
     try {

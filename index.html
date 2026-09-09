@@ -4,39 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#f3f5f4" />
-  <meta name="description" content="Googleスライドを表示しながらビンゴ番号を管理できるアプリです。" />
-  <title>ビンゴボード</title>
-  <link rel="stylesheet" href="popup.css?v=6" />
-  <link rel="stylesheet" href="styles.css?v=6" />
-  <script src="config.js?v=8" defer></script>
-  <script src="bingo.js?v=6" defer></script>
-  <script src="app.js?v=7" defer></script>
+  <meta name="description" content="世界遺産クイズとビンゴを同時に楽しめるウェブアプリです。" />
+  <title>世界遺産ビンゴ</title>
+  <link rel="stylesheet" href="popup.css?v=7" />
+  <link rel="stylesheet" href="styles.css?v=7" />
+  <script src="heritages.js?v=1" defer></script>
+  <script src="bingo.js?v=7" defer></script>
+  <script src="app.js?v=8" defer></script>
 </head>
 <body>
   <section class="view home-view" id="homeView">
     <div class="menu-card">
-      <h1>ビンゴボード</h1>
-      <button class="primary-button" id="openGame" type="button">スライドショーを開く</button>
-      <button class="secondary-button" id="openRegister" type="button">番号を登録</button>
+      <h1>世界遺産ビンゴ</h1>
+      <button class="primary-button" id="openGame" type="button">ゲームを開く</button>
     </div>
-  </section>
-  <section class="view register-view" id="registerView" hidden>
-    <header class="page-header"><button class="back-button" data-back type="button">← 戻る</button><h1>番号を登録</h1></header>
-    <main class="register-content">
-      <form class="register-form" id="registerForm">
-        <label>特別番号<input id="specialNumber" type="number" min="1" max="100" placeholder="1〜100" required /></label>
-        <label>対応するスライド番号<input id="slideNumber" type="number" min="1" placeholder="例：7" required /></label>
-        <button class="primary-button" type="submit">登録</button>
-      </form>
-      <p class="sync-status" id="syncStatus" role="status"></p>
-      <div class="registration-list" id="registrationList"></div>
-    </main>
   </section>
   <section class="view game-view" id="gameView" hidden>
     <main class="workspace">
-      <section class="slides-panel" aria-label="Googleスライド">
-        <button class="game-back-button" data-back type="button">← メニュー</button>
-        <iframe id="slidesFrame" title="ビンゴ用スライド" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <section class="heritage-panel" id="heritagePanel" tabindex="0" aria-label="世界遺産とクイズ">
+        <button class="game-back-button" id="backButton" type="button">← メニュー</button>
+        <div class="heritage-empty" id="heritageEmpty"><h1>世界遺産クイズ</h1><p>右側で番号を入力してください</p></div>
+        <article class="heritage-card" id="heritageCard" hidden>
+          <img id="heritageImage" alt="" />
+          <div class="image-shade" aria-hidden="true"></div>
+          <div class="heritage-content">
+            <p class="heritage-rank" id="heritageRank"></p>
+            <h1 id="heritageName"></h1>
+            <section class="quiz-box" id="quizBox" hidden><p class="quiz-label" id="quizLabel">QUIZ</p><p class="quiz-text" id="quizText"></p></section>
+            <p class="advance-hint" id="advanceHint">画面をクリック、またはキーを押してクイズを表示</p>
+          </div>
+          <a class="image-credit" id="imageCredit" target="_blank" rel="noopener noreferrer">画像：Wikimedia Commons</a>
+        </article>
       </section>
       <section class="board-panel" aria-label="ビンゴボード">
         <div class="popup-shell">
@@ -46,7 +44,7 @@
           </section>
           <footer class="entry-area">
             <form class="number-form" id="numberForm" novalidate>
-              <div class="input-wrap"><label for="numberInput">番号</label><input id="numberInput" name="number" type="number" min="1" max="100" inputmode="numeric" autocomplete="off" placeholder="1〜100" required /></div>
+              <div class="input-wrap"><label for="numberInput">番号</label><input id="numberInput" name="number" type="number" min="1" max="1000" inputmode="numeric" autocomplete="off" placeholder="番号を入力" required /></div>
               <button class="add-button" type="submit">追加</button>
             </form>
             <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>

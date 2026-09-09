@@ -1,133 +1,99 @@
 "use strict";
-const config = window.BINGO_CONFIG;
-const SPECIAL_KEY = "bingo-special-numbers-v1";
-const views = { home: document.querySelector("#homeView"), register: document.querySelector("#registerView"), game: document.querySelector("#gameView") };
-const slidesFrame = document.querySelector("#slidesFrame");
-const registrationList = document.querySelector("#registrationList");
-const registerForm = document.querySelector("#registerForm");
-const syncStatus = document.querySelector("#syncStatus");
-let registrations = loadRegistrations();
-let board = null;
 
-function loadRegistrations() {
-  try {
-    const value = JSON.parse(localStorage.getItem(SPECIAL_KEY) ?? "[]");
-    return Array.isArray(value) ? value : [];
-  } catch { return []; }
-}
-function saveRegistrations() {
-  localStorage.setItem(SPECIAL_KEY, JSON.stringify(registrations));
-  board?.setSpecialNumbers(registrations);
-}
-function showView(name) {
-  Object.entries(views).forEach(([key, element]) => { element.hidden = key !== name; });
-  if (name === "game") {
-    slidesFrame.src = config.slidesUrl;
-    board ??= window.BingoApp.initializeBoard(document, {
-      specialNumbers: registrations,
-      onNumberAdded: handleCalledNumber,
-      onNumberRemoved: (number) => sendUpdate({ action: "uncall", number })
-    });
-  }
-  if (name === "register") renderRegistrations();
-}
-function slideUrl(slide) {
-  const separator = config.slidesUrl.includes("?") ? "&" : "?";
-  return `${config.slidesUrl}${separator}slide=${encodeURIComponent(slide)}&t=${Date.now()}`;
-}
-function handleCalledNumber(number, special) {
-  sendUpdate({ action: "call", number });
-  if (special) slidesFrame.src = slideUrl(special.slide);
-}
-async function sendUpdate(payload) {
-  if (!config.appsScriptUrl) return false;
-  try {
-    const result = await requestJsonp(payload);
-    return result.ok === true;
-  } catch {
-    syncStatus.textContent = "スプレッドシートに接続できません。Apps Scriptの公開設定を確認してください。";
-    return false;
-  }
-}
-function requestJsonp(parameters = {}) {
-  return new Promise((resolve, reject) => {
-    const callback = "bingoSync" + Date.now() + Math.floor(Math.random() * 10000);
-    const script = document.createElement("script");
-    const query = new URLSearchParams({ ...parameters, callback });
-    const separator = config.appsScriptUrl.includes("?") ? "&" : "?";
-    const timeout = window.setTimeout(() => cleanup(new Error("timeout")), 10000);
-    function cleanup(error, data) {
-      window.clearTimeout(timeout);
-      delete window[callback];
-      script.remove();
-      error ? reject(error) : resolve(data);
-    }
-    window[callback] = (data) => cleanup(null, data);
-    script.onerror = () => cleanup(new Error("load failed"));
-    script.src = config.appsScriptUrl + separator + query.toString();
-    document.head.append(script);
+const homeView = document.querySelector("#homeView");
+const gameView = document.querySelector("#gameView");
+const heritagePanel = document.querySelector("#heritagePanel");
+const heritageEmpty = document.querySelector("#heritageEmpty");
+const heritageCard = document.querySelector("#heritageCard");
+const heritageImage = document.querySelector("#heritageImage");
+const heritageRank = document.querySelector("#heritageRank");
+const heritageName = document.querySelector("#heritageName");
+const quizBox = document.querySelector("#quizBox");
+const quizLabel = document.querySelector("#quizLabel");
+const quizText = document.querySelector("#quizText");
+const advanceHint = document.querySelector("#advanceHint");
+const imageCredit = document.querySelector("#imageCredit");
+
+let board = null;
+let currentHeritage = null;
+let stage = 0;
+let imageRequest = 0;
+
+function showGame() {
+  homeView.hidden = true;
+  gameView.hidden = false;
+  board ??= window.BingoApp.initializeBoard(document, {
+    specialNumbers: window.WORLD_HERITAGES,
+    onNumberAdded: (_number, heritage) => heritage && showHeritage(heritage),
   });
+  document.querySelector("#numberInput").focus();
 }
-async function loadRemoteRegistrations() {
-  if (!config.appsScriptUrl) return;
+
+function showHome() {
+  gameView.hidden = true;
+  homeView.hidden = false;
+  document.querySelector("#openGame").focus();
+}
+
+async function loadWikipediaImage(heritage, requestId) {
+  const title = encodeURIComponent(heritage.wikipedia);
   try {
-    const data = await requestJsonp();
-    if (Array.isArray(data.registrations)) {
-      registrations = data.registrations;
-      saveRegistrations();
-      if (!views.register.hidden) renderRegistrations();
-    }
+    const response = await fetch(`https://ja.wikipedia.org/api/rest_v1/page/summary/${title}`, { headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error("image not found");
+    const data = await response.json();
+    if (requestId !== imageRequest) return;
+    const image = data.originalimage?.source || data.thumbnail?.source;
+    if (!image) throw new Error("image not found");
+    heritageImage.src = image;
+    heritageImage.alt = `${heritage.name}の写真`;
+    imageCredit.href = data.content_urls?.desktop?.page || `https://ja.wikipedia.org/wiki/${title}`;
+    heritageCard.classList.remove("image-unavailable");
   } catch {
-    syncStatus.textContent = "スプレッドシートに接続できません。";
+    if (requestId !== imageRequest) return;
+    heritageImage.removeAttribute("src");
+    heritageImage.alt = "画像を読み込めませんでした";
+    imageCredit.href = `https://commons.wikimedia.org/w/index.php?search=${title}&title=Special:MediaSearch&type=image`;
+    heritageCard.classList.add("image-unavailable");
   }
 }
-function renderRegistrations() {
-  if (!registrations.length) {
-    registrationList.innerHTML = '<p class="empty-registration">登録された番号はありません</p>';
-    return;
-  }
-  registrationList.replaceChildren(...registrations.map((item) => {
-    const row = document.createElement("div");
-    row.className = "registration-row";
-    const number = document.createElement("strong");
-    number.className = "registration-number";
-    number.textContent = `${item.number}番`;
-    const slide = document.createElement("span");
-    slide.textContent = `${item.slide}枚目`;
-    const remove = document.createElement("button");
-    remove.className = "delete-registration";
-    remove.type = "button";
-    remove.textContent = "削除";
-    remove.addEventListener("click", () => {
-      registrations = registrations.filter((entry) => entry.number !== item.number);
-      saveRegistrations();
-      renderRegistrations();
-      sendUpdate({ action: "delete", number: item.number });
-    });
-    row.append(number, slide, remove);
-    return row;
-  }));
+
+function showHeritage(heritage) {
+  currentHeritage = heritage;
+  stage = 0;
+  heritageEmpty.hidden = true;
+  heritageCard.hidden = false;
+  heritageRank.textContent = `人気ランキング ${heritage.number}位`;
+  heritageName.textContent = heritage.name;
+  quizBox.hidden = true;
+  advanceHint.textContent = "画面をクリック、またはキーを押してクイズを表示";
+  heritageCard.classList.remove("show-quiz", "show-answer");
+  heritageImage.removeAttribute("src");
+  loadWikipediaImage(heritage, ++imageRequest);
 }
-registerForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const number = Number(document.querySelector("#specialNumber").value);
-  const slide = Number(document.querySelector("#slideNumber").value);
-  if (!Number.isInteger(number) || number < 1 || number > 100 || !Number.isInteger(slide) || slide < 1) {
-    syncStatus.textContent = "番号は1〜100、スライド番号は1以上で入力してください。";
-    return;
+
+function advanceHeritage() {
+  if (!currentHeritage || gameView.hidden) return;
+  stage = Math.min(stage + 1, 2);
+  quizBox.hidden = false;
+  if (stage === 1) {
+    quizLabel.textContent = "QUIZ";
+    quizText.textContent = currentHeritage.quiz || "クイズは準備中です";
+    advanceHint.textContent = "もう一度操作して答えを表示";
+    heritageCard.classList.add("show-quiz");
+    heritageCard.classList.remove("show-answer");
+  } else {
+    quizLabel.textContent = "ANSWER";
+    quizText.textContent = currentHeritage.answer || "答えは準備中です";
+    advanceHint.textContent = "";
+    heritageCard.classList.add("show-answer");
   }
-  registrations = registrations.filter((entry) => entry.number !== number);
-  registrations.push({ number, slide });
-  registrations.sort((a, b) => a.number - b.number);
-  saveRegistrations();
-  renderRegistrations();
-  const saved = await sendUpdate({ action: "register", number, slide });
-  syncStatus.textContent = config.appsScriptUrl
-    ? saved ? "スプレッドシートに登録しました。" : "端末には登録しましたが、スプレッドシートへ保存できませんでした。"
-    : "この端末に登録しました。スプレッドシート連携は未設定です。";
-  registerForm.reset();
+}
+
+heritagePanel.addEventListener("click", (event) => {
+  if (!event.target.closest("button, a")) advanceHeritage();
 });
-document.querySelector("#openGame").addEventListener("click", () => showView("game"));
-document.querySelector("#openRegister").addEventListener("click", () => showView("register"));
-document.querySelectorAll("[data-back]").forEach((button) => button.addEventListener("click", () => showView("home")));
-loadRemoteRegistrations();
+document.addEventListener("keydown", (event) => {
+  if (!gameView.hidden && !event.target.matches("input, button")) advanceHeritage();
+});
+document.querySelector("#openGame").addEventListener("click", showGame);
+document.querySelector("#backButton").addEventListener("click", showHome);
