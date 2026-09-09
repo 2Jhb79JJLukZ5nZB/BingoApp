@@ -7,11 +7,11 @@
   <meta name="description" content="世界遺産クイズとビンゴを同時に楽しめるウェブアプリです。" />
   <title>世界遺産ビンゴ</title>
   <link rel="stylesheet" href="popup.css?v=9" />
-  <link rel="stylesheet" href="styles.css?v=29" />
+  <link rel="stylesheet" href="styles.css?v=30" />
   <script src="heritages.js?v=21" defer></script>
   <script src="pictures/manifest.js?v=2" defer></script>
   <script src="bingo.js?v=10" defer></script>
-  <script src="app.js?v=27" defer></script>
+  <script src="app.js?v=28" defer></script>
 </head>
 <body>
   <section class="view home-view" id="homeView">
@@ -44,7 +44,10 @@
       <h1>次のビンゴ大会は<span id="startTimeText">XX:XX:XX</span>から！</h1>
       <p class="countdown-caption">開始まであと</p>
       <p class="countdown" id="countdownText">ZZ:ZZ:ZZ</p>
-      <button class="primary-button" id="timerStartGame" type="button">ビンゴを開始</button>
+      <div class="timer-actions">
+        <button class="secondary-button" id="timerBack" type="button">戻る</button>
+        <button class="primary-button" id="timerStartGame" type="button">ビンゴを開始</button>
+      </div>
     </div>
   </section>
   <section class="view rules-view" id="rulesView" hidden>

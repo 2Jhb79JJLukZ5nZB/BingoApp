@@ -302,6 +302,12 @@ document.addEventListener("keydown", (event) => {
 });
 document.querySelector("#openRules").addEventListener("click", () => showOnly(rulesView));
 document.querySelector("#openTimer").addEventListener("click", showTimer);
+document.querySelector("#timerBack").addEventListener("click", () => {
+  clearInterval(countdownTimer);
+  clearInterval(timerImageTimer);
+  timerImageRequest += 1;
+  showOnly(homeView);
+});
 document.querySelector("#timerStartGame").addEventListener("click", () => {
   clearInterval(countdownTimer);
   clearInterval(timerImageTimer);
